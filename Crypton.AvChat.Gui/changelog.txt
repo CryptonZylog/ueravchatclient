@@ -1,0 +1,146 @@
+﻿[N] - New feature
+[F] - Fix
+[C] - Change
+[R] - Removed
+
+* 0.22
+	- [F]	Bug fix within idle time responder for auto away
+
+* 0.21
+	- [F]   Hotfix includes logging of private chat tabs
+
+* 0.20
+	- [F]	#0000006: PMs don't show up. - fixed issue when a received first PM may not be displayed in chat
+	- [C]	Added bug reporting option
+
+* 0.19/R4
+	- [F]	WebBrowserShortcutsEnabled were false preventing copying text via Ctrl+C from private tabs.
+			see http://bugs.crypton-technologies.net/view.php?id=4
+
+* 0.19/R3
+	- [F]	Fixed strange Ping packet exception per z0th (added mutex lock)
+
+* 0.19/R2
+	- [C]	Removed auto-selection of new private channel tab when someone messages you
+
+* 0.19
+	- [F]	Increased connection watchdog timeout to 60s
+	- [C]	Internal namespace refactoring
+
+* 0.18/R2
+	- [F]	It would be great if watchword and notification settings actually
+			saved to the disk!
+
+* 0.18
+	- [N]	Added Ctrl+Up/Down shortcuts for reviewing last sent messages
+	- [N]	Added ability to setup watchwords
+	- [C]	Notifications overhaul
+
+* 0.17
+	- [C]	Small change to versioning
+
+* 0.1.17
+	- [C]	Added completely automated autoscroll of new chat messages
+	- [N]	Ability to copy the topic from the top of the window
+
+* 0.1.16
+	- [N]	Program no longer checks for updates on startup, instead, it checks after app has run with an option to update whenever
+	- [C]	Auto-reconnect mechanism has been improved
+	- [F]	Fixed 'Connection to server is closed' exception when closing client
+	- [F]	Fixed them weird splitter sizes when new tabs are created
+	- [F]	Fixed &#x9; entity display instead of tab character
+
+* 0.1.15
+	- [F]	A bug in the Unicode text parser where sending a character bigger than UTF-8 could crash the client
+
+* 0.1.14
+	- [F]	A bug has been identified in internal event router where messages sent to case-sensitive
+			channel tabs may never get routed. (so #crosstheline works but not #CrossTheLine).
+
+
+* 0.1.13
+	- [N]	Save window state, position, and size between app launches
+	- [C]	Clicking on the timestamp will quote entire chat line
+	- [N]	Ops Whitelist
+	- [N]	Sync sizes of splitters between tab contents across tabs
+	- [N]   BOSS KEY: Pressing F8 will quickly hide chat, leaving only a single tray icon to restore it.
+	- [N]	/takeover and /love, /democracy, /cuddle commands :)
+	- [~]	Notifications options still being worked on
+
+* 0.1.12
+	- [F]	Incorrect idle time reporting
+	- [F]	Pressing enter mid-message will split message in different lines (should not)
+
+* 0.1.11 (HotFix Update)
+	- [F]	Fixed IndexOutOfRange exception when receiving a time list and user does not have a local time
+
+* 0.1.10
+	- [F]	Fixed issues when clicking a URL will crash the application
+	- [F]	Fixed issue when a network error (corruption) could crash the application
+
+* 0.1.9
+	- [N]	Double-click username in user list to see profile
+	- [N]	Click username between < and > to see profile
+	- [F]	Fixed bug when user goes offline in user menu
+
+
+* 0.1.8
+	- [F]	Vertical scroll bar in textbox for new message
+	- [C]	Bug in server's autoaway. Resetting autoaway is sent using normal /away
+	- [F]	Fixed weird tab flicker
+	- [N]	Tabs can be re-ordered
+	- [N]	Right-clicking on a tab has some interesting menu options
+	- [F]	Other little fixes
+
+
+* 0.1.7
+	- [N]	User's colour sent on each connection attempt
+	- [N]	Improvements in connection keep-alive thread
+	- [N]	Debug window via /debug command
+	- [N]	Fixed weird tab flicker
+	- [F]	Changes in credential encryption to make it a bit more persistent between updates
+	- [F]	AutoAway implemented
+
+
+* 0.1.6
+	- [F]	Ctrl+A to select all text in message text box
+	- [F]	Fixed problem where HTML is displayed in the label right below the tab for channel topics
+	- [N]	Entering a tab will focus input on the text box
+	- [N]	Added entry in channel log when another user sends you an alert
+	- [F]	Fixed the &#xA; character appearing in new lines
+
+
+* 0.1.5
+	- [N]	/slap <name> command by popular request
+	- [F]	Fixed shortcut keys (Ctrl+C, etc) in the chat window text
+	- [F]	Auto-reconnect feature improved
+	- [F]	Notification sounds for received messages have been reversed
+
+
+* 0.1.4
+	- [F]	User persists in the list after being kicked
+	- [F]	Server disconnect notification in each tab
+
+
+* 0.1.3
+	- [F]	Notification sounds do not always play
+	- [F]	Bug where the red cross button to leave the channel may disable itself
+	- [R]	Console window has been removed
+
+
+* 0.1.0.0 (Beta)
+
+	- [N]	Private chat implemented
+	- [N]	Links opened in the chat window are no longer displayed in IE
+	- [N]	User listing uses different UI element (ListView)
+	- [N]	Channel topics now appear above text frame
+	- [F]	Task bar only flashes once instead of each
+			time new message is received on inactive window
+	- [N]	Sounds: Av's Dogs, Alert notifications,
+			New message received (if window is not in foreground)
+	- [F]	History is now stored in My Documents
+	- [N]	Implemented Changelog
+	- [F]	The Great Chat Client Code Overhaul:
+			updated/fixed/refactored a lot of base protocol code
+	- [N]	Client will attempt to reconnect if
+			network connection is lost

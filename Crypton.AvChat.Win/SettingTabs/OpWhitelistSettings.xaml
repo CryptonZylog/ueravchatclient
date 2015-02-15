@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="Crypton.AvChat.Win.SettingTabs.OpWhitelistSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.ColumnSpan="2" TextWrapping="Wrap" Margin="2">Chat client can automatically op joined users in a channel if you are operator of that channel.
+            You can setup a whitelist of those users here.
+            Note that the username match is partial, so entering Crypton will also match Crypton2.</TextBlock>
+        <GroupBox Header="Channels" Grid.Row="1" Grid.Column="0" Margin="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+                <ListBox Name="ChannelsListBox" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Margin="2" SelectionChanged="UpdateChannelSelection"></ListBox>
+                <Button Name="AddChannelButton" Grid.Column="1" Grid.Row="0" Margin="2" Click="AddChannel">Add</Button>
+                <Button Name="RemChannelButton" Grid.Column="1" Grid.Row="1" Margin="2" Click="RemoveChannel">Rem</Button>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Users" Grid.Row="1" Grid.Column="1" Margin="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+                <ListBox Name="UsersListBox"  Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Margin="2"></ListBox>
+                <Button Name="AddUserButton" Grid.Column="1" Grid.Row="0" Margin="2" Click="AddUser">Add</Button>
+                <Button Name="RemUserButton" Grid.Column="1" Grid.Row="1" Margin="2" Click="RemoveUser">Rem</Button>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

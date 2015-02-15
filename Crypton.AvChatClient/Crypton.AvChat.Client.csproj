@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{539EFC0F-7B2B-4ABD-B537-13648669CA48}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Crypton.AvChat.Client</RootNamespace>
+    <AssemblyName>Crypton.AvChatClient</AssemblyName>
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Crypton.AvChatClient.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+  <PropertyGroup>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AutoAwayResponder.cs" />
+    <Compile Include="ConnectionWatchdog.cs" />
+    <Compile Include="Events\AddMessageEventArgs.cs" />
+    <Compile Include="Events\AddStatusEventArgs.cs" />
+    <Compile Include="Events\AddTextEventArgs.cs" />
+    <Compile Include="Events\AlertEventArgs.cs" />
+    <Compile Include="Events\ChangeTopicEventArgs.cs" />
+    <Compile Include="Events\ChannelFlagsEventArgs.cs" />
+    <Compile Include="Events\ChannelJoinEventArgs.cs" />
+    <Compile Include="Events\ChannelListEventArgs.cs" />
+    <Compile Include="ChatClient.cs" />
+    <Compile Include="CommandException.cs" />
+    <Compile Include="ConnectionException.cs" />
+    <Compile Include="ConnectionStatusChangeEventArgs.cs" />
+    <Compile Include="ConnectionStatusTypesEnum.cs" />
+    <Compile Include="Events\ChannelTopicEventArgs.cs" />
+    <Compile Include="Events\ChatEvents.cs" />
+    <Compile Include="Events\ColorChangeEventArgs.cs" />
+    <Compile Include="Events\FlagStatusEventArgs.cs" />
+    <Compile Include="Events\KickChannelEventArgs.cs" />
+    <Compile Include="Events\UserKickEventArgs.cs" />
+    <Compile Include="Events\UserLeaveEventArgs.cs" />
+    <Compile Include="Events\ExitChannelEventArgs.cs" />
+    <Compile Include="Events\PingEventArgs.cs" />
+    <Compile Include="Events\UserJoinEventArgs.cs" />
+    <Compile Include="Events\UserListEventArgs.cs" />
+    <Compile Include="Events\UserQuitEventArgs.cs" />
+    <Compile Include="IdleResetModesEnum.cs" />
+    <Compile Include="Events\PacketEventArgs.cs" />
+    <Compile Include="Events\PlayDogEventArgs.cs" />
+    <Compile Include="IdleTimeProvider.cs" />
+    <Compile Include="LoginEventHandler.cs" />
+    <Compile Include="Net\INetDispatcher.cs" />
+    <Compile Include="Net\IReceiveDispatcher.cs" />
+    <Compile Include="Net\ISendDispatcher.cs" />
+    <Compile Include="Net\ReceiveDispatcher.cs" />
+    <Compile Include="Net\SendDispatcher.cs" />
+    <Compile Include="PacketProcessors\LoginProcessor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Events\ServerDisconnectEventArgs.cs" />
+    <Compile Include="Statistics.cs" />
+    <Compile Include="UserFlags.cs" />
+    <Compile Include="XmlPacketBuilder.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>REM "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\signtool.exe" sign /f "$(SolutionDir)\Dependencies\codesign.pfx" /p 8joddVbuSp5yYmrbWAIu $(TargetFileName)</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

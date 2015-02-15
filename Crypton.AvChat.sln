@@ -1,0 +1,73 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypton.AvChat.Client", "Crypton.AvChatClient\Crypton.AvChat.Client.csproj", "{539EFC0F-7B2B-4ABD-B537-13648669CA48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypton.AvChat.Gui", "Crypton.AvChat.Gui\Crypton.AvChat.Gui.csproj", "{671266DB-A029-405E-AE86-E41B0BAC4CF3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A2CE1E4B-AB5C-49B9-A683-F12E241E92A1}"
+	ProjectSection(SolutionItems) = preProject
+		docs.htm = docs.htm
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypton.AvChat.Win", "Crypton.AvChat.Win\Crypton.AvChat.Win.csproj", "{F51D10D4-36EF-4E0C-BA34-0026E1BDD0C5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{67EEB668-F742-4E35-91F9-FA28AF6ADC2C}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{539EFC0F-7B2B-4ABD-B537-13648669CA48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{539EFC0F-7B2B-4ABD-B537-13648669CA48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{539EFC0F-7B2B-4ABD-B537-13648669CA48}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{539EFC0F-7B2B-4ABD-B537-13648669CA48}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{539EFC0F-7B2B-4ABD-B537-13648669CA48}.Debug|x86.ActiveCfg = Debug|x86
+		{539EFC0F-7B2B-4ABD-B537-13648669CA48}.Debug|x86.Build.0 = Debug|x86
+		{539EFC0F-7B2B-4ABD-B537-13648669CA48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{539EFC0F-7B2B-4ABD-B537-13648669CA48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{539EFC0F-7B2B-4ABD-B537-13648669CA48}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{539EFC0F-7B2B-4ABD-B537-13648669CA48}.Release|Mixed Platforms.Build.0 = Release|x86
+		{539EFC0F-7B2B-4ABD-B537-13648669CA48}.Release|x86.ActiveCfg = Release|x86
+		{539EFC0F-7B2B-4ABD-B537-13648669CA48}.Release|x86.Build.0 = Release|x86
+		{671266DB-A029-405E-AE86-E41B0BAC4CF3}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{671266DB-A029-405E-AE86-E41B0BAC4CF3}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{671266DB-A029-405E-AE86-E41B0BAC4CF3}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{671266DB-A029-405E-AE86-E41B0BAC4CF3}.Debug|x86.ActiveCfg = Debug|x86
+		{671266DB-A029-405E-AE86-E41B0BAC4CF3}.Debug|x86.Build.0 = Debug|x86
+		{671266DB-A029-405E-AE86-E41B0BAC4CF3}.Release|Any CPU.ActiveCfg = Release|x86
+		{671266DB-A029-405E-AE86-E41B0BAC4CF3}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{671266DB-A029-405E-AE86-E41B0BAC4CF3}.Release|Mixed Platforms.Build.0 = Release|x86
+		{671266DB-A029-405E-AE86-E41B0BAC4CF3}.Release|x86.ActiveCfg = Release|x86
+		{671266DB-A029-405E-AE86-E41B0BAC4CF3}.Release|x86.Build.0 = Release|x86
+		{F51D10D4-36EF-4E0C-BA34-0026E1BDD0C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F51D10D4-36EF-4E0C-BA34-0026E1BDD0C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F51D10D4-36EF-4E0C-BA34-0026E1BDD0C5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F51D10D4-36EF-4E0C-BA34-0026E1BDD0C5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F51D10D4-36EF-4E0C-BA34-0026E1BDD0C5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F51D10D4-36EF-4E0C-BA34-0026E1BDD0C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F51D10D4-36EF-4E0C-BA34-0026E1BDD0C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F51D10D4-36EF-4E0C-BA34-0026E1BDD0C5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F51D10D4-36EF-4E0C-BA34-0026E1BDD0C5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F51D10D4-36EF-4E0C-BA34-0026E1BDD0C5}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

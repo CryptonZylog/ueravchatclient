@@ -1,0 +1,30 @@
+﻿<Window x:Class="Crypton.AvChat.Win.AppWindows.ChatWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Crypton AvChat" Width="540" Height="580" TextOptions.TextFormattingMode="Display" ResizeMode="CanResizeWithGrip" Closing="ChatWindowClosing" Icon="/Crypton.AvChat.Win;component/ChatIcon.ico">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0" IsMainMenu="True">
+            <MenuItem Header="Conversation">
+                <MenuItem Header="Find..." />
+                <MenuItem Header="View History" />
+                <Separator />
+                <MenuItem Header="Close" Click="CloseMenuClick" />
+            </MenuItem>
+            <MenuItem Header="Tools">
+                <MenuItem Header="Login..." Click="OpenLogin" />
+                <Separator />
+                <MenuItem Header="Channel List" Click="OpenChannelList" />
+                <Separator />
+                <MenuItem Header="Check for updates" />
+                <MenuItem Header="Preferences" Click="OpenPreferences" />
+            </MenuItem>
+        </Menu>        
+        <TabControl Name="ChannelTabs" Grid.Row="1" AllowDrop="True" SelectionChanged="ChannelTabSelectionChanged">
+            
+        </TabControl>
+    </Grid>
+</Window>

@@ -1,0 +1,442 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Untitled Page</title>
+</head>
+<body>
+
+    <em>As originally received from Avatar-X</em>
+
+    <hr />
+
+    AvChat works via TCP connections on port 6374, directed at
+    <a href="http://www.uer.ca" target="_blank">www.uer.ca</a>.&nbsp; The connection is 
+    maintained as long as the user is in the chat session.&nbsp; <br />
+    <br />
+    <h3>Ground Rules</h3>
+    I have only a few rules for 3rd party chat clients:<br />
+    <ol>
+        <li>Obey the AvChat server.&nbsp; This means if the server tells you to disconnect, you 
+            do it.&nbsp; If the server tells you to leave the channel, you do it.&nbsp;&nbsp; <br />
+        </li>
+        <li>Don&#39;t implement any features that would be considered abusive or problematic.&nbsp; 
+            No spamming or other such thing.</li>
+        <li>Don&#39;t implement an Ignore feature, since this contravenes rule #1 -- if the 
+            server tells you to display a message from Person X, you should display it.</li>
+        <li>Don&#39;t lie to the server.&nbsp; Don&#39;t tell it that you&#39;re AvChat version 3.8 when you 
+            are really some other program.</li>
+    </ol>
+    <h3><br />
+    </h3>
+    <h3>The data transfer protocol</h3>
+    Each packet of data is sent in the same way, as XML name value pairs. Example:<br />
+    <tt>&lt;data name=&quot;value&quot; name=&quot;value&quot; name=&quot;value&quot; /&gt;(null)</tt><br />
+    <br />
+    Where:<br />
+    <ul>
+        <li><tt>name</tt> is any XML-safe variable name</li>
+        <li><tt>value</tt> is any XML-encoded data, such that <tt>&lt;</tt> symbols are 
+            replaced with <tt>&amp;lt;</tt>, <tt>&gt;</tt> with <tt>&amp;gt;</tt>, <tt>&quot;</tt> with <tt>
+            &amp;quot;</tt> and so on.</li>
+        <li>The string ends with a null byte, that is, a character of code 0. In javascript 
+            this would be <tt>String.fromCharCode(0)</tt>;<br />
+        </li>
+    </ul>
+    The server transmits in this format to the client, and the client to the 
+    server.&nbsp; Since each packet is terminated with a null byte, it is quite easy to 
+    separate out the packets.<br />
+    <br />
+    Pretty much every packet you send and receive from the server will have a 
+    variable called &quot;action&quot;.&nbsp; This identifies the packet and its contents.<br />
+    <br />
+    The conversation<br />
+    <br />
+    When you first connect to the server, you&#39;ll get a packet that looks like this 
+    from the server:<br />
+    <tt>&lt;data action=&quot;ident&quot; /&gt;</tt><br />
+    <br />
+    From now on, I will refer to this as an &quot;ident&quot; packet, with no extra parameters 
+    passed.&nbsp; The server is asking you to identify yourself and provide the username 
+    and password of the account that will be used. The proper response to a server 
+    ident packet is to reply with a client ident packet, which includes the username 
+    and password.&nbsp; This packet is usually immediately followed by a version 
+    information packet, which can actually be sent at any time.<br />
+    <tt>&lt;data action=&quot;ident&quot; usern=&quot;bobby&quot; passw=&quot;abc123&quot; /&gt;<br />
+    &lt;data action=&quot;myver&quot; version=&quot;YourChatClientName v1.0&quot; /&gt;<br />
+    </tt><br />
+    I will now examine the conversation when you connect to AvChat Server, with the
+    <tt>&lt;data /&gt;</tt> removed for clarify.<br />
+    <br />
+    SERVER: <tt>ident</tt><br />
+    CLIENT: <tt>ident usern=&quot;bobby&quot; passw=&quot;abc123&quot;</tt><br />
+    CLIENT: <tt>myver version=&quot;FunChat v1.0&quot;</tt><br />
+    <br />
+    Assuming your login succeeds, the server will respond with<br />
+    SERVER: <tt>ready youare=&quot;Bobby2&quot;</tt><br />
+    <br />
+    The server has told you that you are ready to chat, and has provided you with 
+    the name of your user as he appears in the chat.&nbsp; If a user Bobby was already 
+    present, the server has set you as Bobby2.&nbsp; Also, if your name had a space in 
+    it, it will be replaced with an underscore.&nbsp; <br />
+    <br />
+    Occasionally, the server will send you a &quot;<tt>ping</tt>&quot; action.&nbsp; This basically 
+    means &quot;are you still there?&quot;.&nbsp; If you do not reply with a &quot;ping&quot;, eventually the 
+    server will assume you have timed out and will disconnect you.<br />
+    <br />
+    SERVER: <tt>ping timelist=&quot;Bob#10:34 PM#00:07:18,Jim#11:34 PM#00:00:01&quot;</tt><br />
+    CLIENT: <tt>ping localtime=&quot;10:35 PM&quot; idletime=&quot;00:00:34&quot;</tt><br />
+    <br />
+    When you respond with a ping packet, you should also include the current local 
+    time at your location, as well as the amount of hours/minutes/seconds the user 
+    has been idle.&nbsp; This allows other users of the chat to more easily recognize 
+    when you are not at your chat client, and also to determine what time zone you 
+    are in.<br />
+    <br />
+    You may have noticed that the server&#39;s ping packet included a &quot;timelist&quot;.&nbsp; This 
+    is a list of all of the clients currently connected to the chat, as well as 
+    their local time, and their idle time.&nbsp; The format is as follows:<br />
+    - User blocks are delineated with commas<br />
+    - Each user block consists of three fields, delineated with hash marks (#).<br />
+    - The blocks are Name, Local Time, Idle Time.<br />
+    <br />
+    Idle time should not just be the time since the last message was sent, but also 
+    whether the user is physically at the chat window, perhaps just lurking, or 
+    perhaps chatting in a private window.<br />
+    <br />
+    <br />
+    <h3>Joining a channel</h3>
+    Now that the server has authenticated you, you&#39;re ready to join a channel.&nbsp; Most 
+    commands from this point forward are accomplished with the &quot;command&quot; action.<br />
+    <br />
+    CLIENT: <tt>command text=&quot;/join #general&quot;</tt><br />
+    <br />
+    I suggest your chat client be configured to join the<tt> #general </tt>channel 
+    upon startup, unless otherwise configured by the user.&nbsp; If your channel join 
+    succeeds, the server will reply with:<br />
+    <br />
+    SERVER: <tt>inchannel channel=&quot;#general&quot;</tt><br />
+    SERVER: <tt>topic channel=&quot;#general&quot; topic=&quot;Escaped%20Topic,Topic%<wbr>20Set%20Date,Topic%20Set%20By&quot;</tt><br />
+    SERVER: <tt>chanflags channel=&quot;#general&quot; data=&quot;channel flags here&quot;<br />
+    </tt>SERVER: <tt>userlist channel=&quot;#general&quot; list=&quot;(userlist data, see below)&quot;<br />
+    </tt><br />
+    To learn about <tt>topic</tt>, <tt>chanflags</tt>, and <tt>userlist</tt>, please 
+    see below.&nbsp; The most important one here is <tt>inchannel, </tt>which now tells 
+    you you have joined the channel.&nbsp; You should open a channel window or tab on the 
+    client side at this point.&nbsp; <br />
+    <br />
+    <br />
+    <h3>Talking in a channel</h3>
+    To speak in a channel, send the &quot;<tt>command</tt>&quot; action with the <tt>channel
+    </tt>specified, and just place the text in the <tt>text</tt> argument.<br />
+    CLIENT: <tt>command channel=&quot;#general&quot; text=&quot;hello everyone!&quot;</tt><br />
+    <br />
+    When something simple needs to be printed into a channel, usually for server 
+    commands, the server will send you an &quot;addtext&quot; command.&nbsp; This command looks 
+    like this:<br />
+    <br />
+    SERVER: <tt>addtext channel=&quot;#general&quot; text=&quot;** you&#39;re not in this channel.&quot;</tt><br />
+    <br />
+    You should print that text into the channel window, perhaps in a different color 
+    from normal chatter.<br />
+    <br />
+    When an actual person speaks in a channel, you get a different message:<br />
+    <br />
+    SERVER: <tt>addmore channel=&quot;#general&quot; more=&quot;(data about the user)&quot; msg=&quot;Hello 
+    everyone!&quot;</tt><br />
+    <br />
+    This command is similar to the addtext action, but it provides more details 
+    about the origin and type of the message.&nbsp; The &quot;more&quot; parameter is formatted 
+    with data separated by colons,&nbsp; with each piece of data escaped with Escape, 
+    standard URL escaping:<br />
+    <br />
+    <tt>:Name:UserID:is /me command:is this myself speaking:chat color:gender</tt><br />
+    <br />
+    <ul>
+        <li><b>Name </b>- The user&#39;s name</li>
+        <li><b>UserID </b>- The UER User ID that can be used to link to this person&#39;s 
+            profile.</li>
+        <li><b>is /me command</b> - can be 1 or 0. If 1, the /me command was used, and it 
+            should be displayed differently, see below.</li>
+        <li><b>is this myself speaking </b>- can be 1 or 0. If 1, this message is from 
+            myself, and you can choose to show it in a different color to help ID it.</li>
+        <li><b>chat color</b> - six characters indicating the user&#39;s chosen chat color.</li>
+        <li><b>gender </b>- can be 0, 1, or 2.&nbsp; 0 means unknown or other, 1 means male, 2 
+            means female.&nbsp; Usually the name is shown in blue if male, red if female.<br />
+        </li>
+    </ul>
+    <br />
+    Example:<br />
+    <tt>:Bob:4332:0:0:FF0000:1</tt><br />
+    <br />
+    Should be displayed as:<br />
+    <tt>&lt;<font color="#3366ff">Bob</font>&gt; <font color="#ff0000">Hello everyone!</font></tt><br />
+    <br />
+    When the &quot;is /me command&quot; field is set to 1, the same message would be shown 
+    like so:<br />
+    <font color="#ff0000"><tt>&nbsp; * Bob Hello everyone!</tt></font><br />
+    <br />
+    This is used when Bob types /me Hello everyone!, and is more often used for 
+    things like /me feels great!, which appears as:<br />
+    <font color="#ff0000"><tt>&nbsp; * Bob feels great!</tt></font><br />
+    <br />
+    The chat color may be missing, so do not rely on it.&nbsp; Make sure to display the 
+    text in a default color if it is missing.<br />
+    <br />
+    <br />
+    That&#39;s the basics of chatting with the server, now lets get into the other 
+    things you will get from the server and what you can say to it.<br />
+    <br />
+    <h3>Things you can say to the server</h3>
+    <ul>
+        <li><tt>ident usern=&quot;user name&quot; passw=&quot;password&quot;</tt><br />
+            You are logging in to the chat session.<br />
+            <br />
+        </li>
+        <li><tt>ping localtime=&quot;10:40 PM&quot; idletime=&quot;00:00:30&quot;</tt><br />
+            You are responding to a PING command.<br />
+            <br />
+        </li>
+        <li><tt>myver version=&quot;ChatClient v1.0&quot;</tt><br />
+            You are telling the server what type and version of client you are.<br />
+            <br />
+        </li>
+        <li><tt>mycol color=&quot;FF0000&quot;</tt><br />
+            You are telling the server what your user&#39;s chosen text color is.<br />
+            <br />
+        </li>
+        <li><tt>command channel=&quot;#general&quot; text=&quot;/talk hello&quot;</tt><br />
+            <br />
+            Almost everything you say to the server is encapsulated in the &quot;command&quot; action, 
+            to more closely resemble IRC.&nbsp; Here are the commands you can issue:</li>
+    </ul>
+    <br />
+    <ul>
+        <li><tt>/join #channelname</tt><br />
+            Join this channel.<br />
+            <br />
+        </li>
+        <li><tt>/part #channename reason</tt><br />
+            Leave this channel. The reason is optional.&nbsp; Server responds with &quot;exitchannel&quot; 
+            message<br />
+            <br />
+        </li>
+        <li><tt>/talk hello world</tt><br />
+            Talk in the channel specified by &quot;channel&quot; in the packet.<br />
+            <br />
+        </li>
+        <li><tt>/msg (#channel or user name) hello world</tt><br />
+            Send a message to a different channel, or private chat a user.<br />
+            <br />
+        </li>
+        <li><tt>/me is hungry</tt><br />
+            Talk in the channel in &quot;/me&quot; style.<br />
+            <br />
+        </li>
+        <li><tt>/quit reason</tt><br />
+            Disconnect from the server with a reason.&nbsp; The server will respond with a &quot;quit&quot; 
+            packet, and then disconnect you.<br />
+            <br />
+        </li>
+        <li><tt>/topic new channel topic here</tt><br />
+            Change the topic in the channel.&nbsp; If successful, a &quot;changetopic&quot; packet will be 
+            sent.<br />
+            <br />
+        </li>
+        <li><tt>/away away reason here</tt><br />
+            Set the user to &quot;away&quot;.&nbsp; A message will be broadcast to the channel. To clear 
+            away status, send /away without a reason.<br />
+            <br />
+        </li>
+        <li><tt>/autoaway automatic away</tt><br />
+            Same as away, except without the automatic broadcast.<br />
+            <br />
+        </li>
+        <li><tt>/list</tt><br />
+            Retrieve a list of available channels.&nbsp; Responds with &quot;chanlist&quot; packet, see 
+            below.<br />
+            <br />
+        </li>
+        <li><tt>/alert username</tt><br />
+            Send an alert to this user.&nbsp; The server will send him an &quot;alertbeep&quot; packet, see 
+            below.<br />
+            <br />
+        </li>
+        <li><tt>/control op username</tt><br />
+            Make the specified user an op in this channel<br />
+            <br />
+        </li>
+        <li><tt>/control deop username</tt><br />
+            Take away the specified user&#39;s op.<br />
+            <br />
+        </li>
+        <li><tt>/control voice username</tt><br />
+            Allow the specified person to speak, if the channel is moderated.<br />
+            <br />
+        </li>
+        <li><tt>/control devoice username</tt><br />
+            Take away his right to speak.<br />
+            <tt><br />
+            </tt></li>
+        <li><tt>/control chanflags flags</tt><br />
+            Change the flags of the channel.&nbsp; Valid flags are: <br />
+            1 - Only ops set topic<br />
+            2 - Moderated<br />
+            4 - Secret<br />
+            8 - Invite only<br />
+            <br />
+            At this time, only flag 1 is implemented server-side.<br />
+            <br />
+        </li>
+        <li><tt>/control kick username</tt><br />
+            Remove the specified user from the channel.<br />
+        </li>
+    </ul>
+    <br />
+    Things the server can say to you<br />
+    <br />
+    <ul>
+        <li><tt>ident</tt><br />
+            The server is asking you to identify yourself.&nbsp; Respond with an &quot;ident&quot; packet.<br />
+            <br />
+        </li>
+        <li><tt>ping timelist=&quot;&quot;</tt><br />
+            The server is asking you to send a ping response, and is also providing a list 
+            of users and their local times and idle times, see above for that format.<br />
+            <br />
+        </li>
+        <li><tt>ready youare=&quot;Bobby2&quot;</tt><br />
+            The server is ready for you to start chatting, and has assigned you a name.&nbsp;
+            <br />
+            <br />
+        </li>
+        <li><tt>topic channel=&quot;#general&quot; topic=&quot;Escaped%20Topic,Topic%<wbr>20Set%20Date,Topic%20Set%20By&quot;<br />
+            </tt>Information about the channel you just joined.&nbsp; The topic is provided as a 
+            URL-encoded string with three pieces of data:<br />
+            - The topic<br />
+            - When the topic was set<tt><br />
+            </tt>- Who set the topic<tt><br />
+            <br />
+            </tt></li>
+        <li><tt>inchannel channel=&quot;#general&quot;</tt><br />
+            You are now in this channel.<br />
+            <br />
+        </li>
+        <li><tt>chanflags channel=&quot;#general&quot; data=&quot;1&quot;</tt><br />
+            The server is telling you the channel flags that have been set in this channel.&nbsp; 
+            See chanflags above for the possible values.<br />
+            <br />
+        </li>
+        <li><tt>userlist channel=&quot;#general&quot; list=&quot;userID#Bob%20Smith#User Flags#Local 
+            Time#Client Version&quot;</tt><br />
+            The server is telling you who is in this channel.&nbsp; The list is comma-separated, 
+            with each field delineated with a # symbol.&nbsp; Certain fields are URL encoded.&nbsp; 
+            The fields are:<br />
+            - User ID<br />
+            - User Name<br />
+            - User Flags (see below)<br />
+            - User Local Time<br />
+            - Client Version (what chat client and version they are using)<br />
+            <br />
+            User Flags are:<br />
+            - 1: The user is away<br />
+            - 2: The user is an op<br />
+            - 4: The user has voice<br />
+            <br />
+            So if a user was away and an op, that would be 1+2 = 3.<br />
+            <br />
+        </li>
+        <li><tt>addtext channel=&quot;#general&quot; text=&quot;hello&quot;</tt><br />
+            Add this text to the specified channel.&nbsp; If channel is blank, add it to the main 
+            status window.<br />
+            <br />
+        </li>
+        <li><tt>addmore channel=&quot;#general&quot; more=&quot;...&quot; msg=&quot;hello&quot;</tt><br />
+            Add text to this channel, with more data. See more info about addmore above.<br />
+            <br />
+        </li>
+        <li><tt>userjoin channel=&quot;#general&quot; data=&quot;userID#Bob%20Smith#User Flags#User Local 
+            Time#Client Version&quot;</tt><br />
+            A new person has joined this channel.&nbsp; The information is the same as above in 
+            User List.<br />
+            <br />
+        </li>
+        <li><tt>userquit channel=&quot;#general&quot; data=&quot;Bob%20Smith#I%20be%<wbr>20gone!&quot;</tt><br />
+            This user is quitting the chat system, and has provided a message.&nbsp; The first 
+            field is the user name, then the message, delineated with # and URL encoded.<br />
+            <br />
+        </li>
+        <li><tt>userpart channel=&quot;#general&quot; data=&quot;Bob%20Smith#I%20be%<wbr>20gone!&quot;</tt><br />
+            Same as userquit above, except this time he&#39;s just leaving the channel, not the 
+            whole server.&nbsp; The message is usually blank.<br />
+            <br />
+        </li>
+        <li><tt>kickchannel channel=&quot;#general&quot; text=&quot;you&#39;ve been kicked&quot;</tt><br />
+            You&#39;ve been kicked out of this channel, with the reason given in Text.&nbsp; Please 
+            do not auto-rejoin.<br />
+            <br />
+        </li>
+        <li><tt>exitchannel channel=&quot;#general&quot;</tt><br />
+            Sent as a response to the &quot;/part&quot; command.&nbsp; It means you can now close the 
+            window.<br />
+            <br />
+        </li>
+        <li><tt>quit</tt><br />
+            Basically just tells you that your quit command was accepted, and that you 
+            should disable any auto-reconnect feature since the quit was on purpose.<br />
+            <br />
+        </li>
+        <li><tt>changetopic channel=&quot;#general&quot; topic=&quot;New%20Topic:Bob%<wbr>20Smith&quot;</tt><br />
+            The topic in this channel has changed.&nbsp; The new topic is the first field, the 
+            person who changed it is the second field, separated by : and URL encoded.<br />
+            <br />
+        </li>
+        <li><tt>flagstatus channel=&quot;#general&quot; data=&quot;Bob%20Smith:User Flags&quot;</tt><br />
+            This user&#39;s User Flags have changed.&nbsp; This is usually broadcast when a user is 
+            no longer away, or goes away.&nbsp; The first field is the name, the second field is 
+            the new User Flags (see above)<br />
+            <br />
+        </li>
+        <li><tt>chanlist data=&quot;#chan1@12@The%20Topic,#<wbr>chan2@2@Nothing&quot;</tt><br />
+            A response to the &quot;/list&quot; command, this is the list of channels.&nbsp; Each channel 
+            is separated by a comma, and provided as 3 fields, separated by @.&nbsp; The first is 
+            the channel name, then the number of users, and then the URL-encoded channel 
+            topic.<br />
+            <br />
+        </li>
+        <li><tt>alertbeep alertfrom=&quot;Bob Smith&quot;</tt><br />
+            Bob Smith has sent an alert.&nbsp; You should make some kind of sound or 
+            notification.<br />
+            <br />
+        </li>
+        <li><tt>byebye text=&quot;Bob Smith&quot;</tt><br />
+            Bob Smith has disconnected you forcefully from the server. DO NOT 
+            AUTORECONNECT.&nbsp; <br />
+            <br />
+        </li>
+        <li><tt>closewindow</tt><br />
+            This is a drastic command, used by admins with real problem users.&nbsp; If you 
+            receive this command, your application needs to close all windows and quit 
+            immediately, without any warning or question to the user.&nbsp; It basically means 
+            &quot;Get the hell out, now.&quot;<br />
+            <br />
+        </li>
+        <li><tt>setcol newcol=&quot;FF0000&quot;</tt><br />
+            The server is telling you that it has changed your text color to this value, and 
+            you should store this in your database for the next time you connect.<br />
+            <br />
+        </li>
+        <li><tt>addstat channel=&quot;#general&quot; text=&quot;Status message?&quot;</tt><br />
+            Add status text to the channel, such as &quot;topic changed&quot; or &quot;user joined&quot;<br />
+            <br />
+        </li>
+        <li><tt>dog dognum=&quot;1&quot;</tt><br />
+            Play a dog barking sound.&nbsp; Used by Av for when he&#39;s bored :-)<br />
+        </li>
+    </ul>
+    <br />
+    There&#39;s also a bunch of messages such as game_invite and game_start, but chances 
+    are you won&#39;t be able to implement the AvChat games, so these will probably get 
+    left out.<br />
+    <br />
+</body>
+</html>

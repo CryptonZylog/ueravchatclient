@@ -1,0 +1,23 @@
+﻿<Window x:Class="Crypton.AvChat.Win.AppWindows.ErrorReportingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Error Reporting" Height="480" Width="640" Icon="/Crypton.AvChat.Win;component/ChatIcon.ico" WindowStartupLocation="CenterScreen" TextOptions.TextFormattingMode="Display">
+    <Grid Margin="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="100" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock TextWrapping="Wrap">
+            An error has occured in the client causing it to crash. Please send the error details below to Crypton for further investigation.
+                <Hyperlink Name="errorReportingLink" RequestNavigate="openBugReportPage">Click here to report this bug</Hyperlink>.
+            </TextBlock>            
+        </StackPanel>
+        <Button Grid.Column="1" Margin="10" Click="exitAppButtonClick">Exit App</Button>
+        <TextBox Grid.ColumnSpan="2" IsReadOnly="True" Margin="8" Name="exceptionDetails" Grid.Row="1" FontFamily="Monospace" HorizontalScrollBarVisibility="Auto"></TextBox>
+    </Grid>
+</Window>

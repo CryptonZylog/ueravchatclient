@@ -1,0 +1,42 @@
+﻿/* UER AvChat-like colours */
+
+body
+{
+    color: white;
+    background-color: #202020 !important;
+}
+
+.date
+{
+    color: gray;
+    cursor: pointer;
+    margin-right:1ex;
+}
+
+.date.mine {
+    color:#ff71ff;
+}
+
+.message {
+}
+
+.message-status {
+    color: #74ff65;
+}
+
+.message-user .message {
+    margin-left:1ex;
+}
+
+.username {
+    color: #FFF654;
+    cursor:pointer;
+}
+
+.username.male {
+    color: #80A4BC;
+}
+
+.username.female {
+    color: ##D23EA6;
+}

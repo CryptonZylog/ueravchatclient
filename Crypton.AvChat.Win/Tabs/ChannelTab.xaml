@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="Crypton.AvChat.Win.Tabs.ChannelTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="ChannelTabLoaded">
+    <Grid Margin="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition />
+            <RowDefinition Height="5" />
+            <RowDefinition MinHeight="60" Height="100" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="5" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="125" MinWidth="5" />
+        </Grid.ColumnDefinitions>
+        <Label Name="channelTopicLabel" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            Test</Label>
+        <Border Grid.Row="1" Grid.Column="0" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" BorderThickness="1">
+            <WebBrowser Name="browser">
+                <WebBrowser.ContextMenu>
+                    <ContextMenu >
+                        <MenuItem Header="Copy"/>
+                        <MenuItem Header="Quote"/>
+                        <Separator/>
+                        <MenuItem Header="Select All"/>
+                        <Separator/>
+                        <MenuItem Header="Dump HTML"/>
+                    </ContextMenu>
+                </WebBrowser.ContextMenu>
+            </WebBrowser>
+        </Border>
+        <GridSplitter Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="2" />
+        <ListBox Name="UserList" Grid.Row="1" Grid.Column="2">
+            <ListBox.ContextMenu>
+                <ContextMenu Name="UserListContextMenu"></ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
+        <GridSplitter Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" Grid.ColumnSpan="3" />
+        <TextBox Name="entryText" Margin="2" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" />
+    </Grid>
+</UserControl>
