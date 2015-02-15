@@ -1,6 +1,6 @@
 # UER AvChat Client #
 
-Unofficial chat client for [UER](http://www.uer.ca) written in C#/.NET. This project is on hiatu for a while. The code and resulting software contained herein are
+Unofficial chat client for [UER](http://www.uer.ca) written in C#/.NET. This project is on hiatus for a while. The code and resulting software contained herein are
 MIT licensed. Anyone is free to fork it and continue their own project/implementation.
 
 ## Structure ##
